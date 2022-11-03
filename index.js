@@ -1,21 +1,19 @@
 const list = document.getElementById("main-list");
+const url = "https://studyplan-back-production.up.railway.app/";
 
-window.addEventListener("load", loadItems);
+axios.get(url).then(function (res) {
+  const { data: items } = res;
+  loadItems(items);
+});
 
-let items = {};
+function loadItems(items) {
+  items.forEach((item, index) => {
+    const control_div = `<li id='item-${index}'><div><input type="checkbox" id=${item.title} name=${item.title} value=${item.title}>
+        <label for=${item.title}> ${item.title}</label><br></br></div></li>`;
 
-// async function loadItems() {
-//   let openfile = window.showOpenFilePicker({ path: "../data.json" });
-//   let file = await openfile.getFile();
-//   let data = await file.json();
-//   console.log({ data });
-// }
-
-// items.forEach((item, index) => {
-//   const control_div = `<li id='item-${index}'><div><input type="checkbox" id=${item} name=${item} value=${item}>
-//   <label for=${item}> ${item}</label><br></br></div></li>`;
-
-//   const new_li = document.createElement("li");
-//   new_li.innerHTML = control_div;
-//   list.append(new_li);
-// });
+    console.log("in froeach");
+    const new_li = document.createElement("li");
+    new_li.innerHTML = control_div;
+    list.append(new_li);
+  });
+}
